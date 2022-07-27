@@ -1,6 +1,6 @@
 # TODO Add SSL
 # kibana behind reverse proxy
-version: '3'
+version: '2.2'
 services:
   #setup
   setup:
