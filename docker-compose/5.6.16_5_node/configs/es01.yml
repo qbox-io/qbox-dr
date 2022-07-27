@@ -393,8 +393,8 @@
 #
 cluster.name: 5_6_16-elasticsearch
 node.name: "es01"
-discovery.zen.ping.unicast.hosts: ["es02", "es03"]
-discovery.zen.minimum_master_nodes: 2
+discovery.zen.ping.unicast.hosts: ["es02","es03", "es04", "es05"]
+discovery.zen.minimum_master_nodes: 3
 network.host: 0.0.0.0
 bootstrap.memory_lock: true
 path.logs: /usr/share/elasticsearch/logs
