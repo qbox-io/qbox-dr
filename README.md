@@ -78,6 +78,45 @@ Plugins must be installed on each node and the node restarted. This can be can b
 Please see the `plugins.md` file in the root of this repo for links to plugins. It is also recommended to read through Elastic's plugin information for your ES version as there are different methods of plugin installation that can be tried.  
 https://www.elastic.co/guide/en/elasticsearch/plugins/7.10/plugin-management.html
 
+
+### Cloning via AWS CLI rather than ES restore
+You may receive information from Qbox support regarding commands to run to set up restore location, like the following:
+
+```
+cluster: [CLUSTER_NAME]
+----------------------------------
+1. Add the snapshot repository, replace  and  password below
+curl -X PUT REPLACE_USER:REPLACE_PASS@localhost/_snapshot/recovery -H 'Content-Type: application/json' -d @- <<BODY
+{
+  "type": "s3",
+  "settings": {
+    "bucket": "[BUCKET_WITH_REGION_NAME]",
+    "base_path":"[BASE_PATH]",
+    "access_key": "[ACCESS_KEY]",
+    "secret_key": "[SECRET_KEY]"
+  }
+}
+BODY
+```
+
+This encompasses the information needed to authenticate and connect to an S3 bucket.  This can be adapted to be ran as an aws cli command.  Taking the info above and adapting it gives us:
+```
+# Assumes aws cli tool not installed, using docker instead
+docker run -it --entrypoint bash -v $PWD:/backup amazon/aws-cli 
+
+# replace the following exports
+export AWS_ACCESS_KEY_ID=[ACCESS_KEY]
+export AWS_SECRET_ACCESS_KEY=[SECRET_KEY]
+export BASE_PATH=[BUCKET_WITH_REGION_NAME]
+export REGION=[REGION_NAME]
+export CLUSTER_NAME=[SECRET_KEY]
+
+# list contents
+aws s3 --region $REGION ls s3://recovery-qbox-backup-$REGION/$BASE_PATH/
+
+# copy
+aws s3 --region $REGION cp s3://recovery-qbox-backup-$REGION/$BASE_PATH /backup/$CLUSTER_NAME/. --recursive
+```
 ---
 
 ### Disclaimer
