@@ -102,7 +102,7 @@ BODY
 This encompasses the information needed to authenticate and connect to an S3 bucket.  This can be adapted to be ran as an aws cli command.  Taking the info above and adapting it gives us:
 ```
 # Assumes aws cli tool not installed, using docker instead
-docker run -it --entrypoint bash -v $PWD:/backup amazon/aws-cli 
+docker run -it --entrypoint bash -v $PWD:/backup amazon/aws-cli
 
 # replace the following exports
 export AWS_ACCESS_KEY_ID=[ACCESS_KEY]
@@ -111,11 +111,20 @@ export BASE_PATH=[BUCKET_WITH_REGION_NAME]
 export REGION=[REGION_NAME]
 export CLUSTER_NAME=[SECRET_KEY]
 
+# Legacy Qbox
 # list contents
 aws s3 --region $REGION ls s3://recovery-qbox-backup-$REGION/$BASE_PATH/
 
 # copy
 aws s3 --region $REGION cp s3://recovery-qbox-backup-$REGION/$BASE_PATH /backup/$CLUSTER_NAME/. --recursive
+
+# Next-Gen Qbox
+# list contents
+aws s3 --region $REGION ls s3://recovery-qbox-backup-ng-$REGION/$BASE_PATH/
+
+# copy
+aws s3 --region $REGION cp s3://recovery-qbox-backup-ng-$REGION/$BASE_PATH /backup/$CLUSTER_NAME/. --recursive
+
 ```
 ---
 
