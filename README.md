@@ -107,9 +107,9 @@ docker run -it --entrypoint bash -v $PWD:/backup amazon/aws-cli
 # replace the following exports
 export AWS_ACCESS_KEY_ID=[ACCESS_KEY]
 export AWS_SECRET_ACCESS_KEY=[SECRET_KEY]
-export BASE_PATH=[BUCKET_WITH_REGION_NAME]
-export REGION=[REGION_NAME]
-export CLUSTER_NAME=[SECRET_KEY]
+export BASE_PATH=[BASE_PATH]
+export REGION=[REGION_NAME (found in bucket name)]
+export CLUSTER_NAME=[CLUSTER_NAME]
 
 # Legacy Qbox
 # list contents
